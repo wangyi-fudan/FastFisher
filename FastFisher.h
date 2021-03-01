@@ -14,4 +14,13 @@ static	inline	long	double	FastFisher(unsigned	AA,	unsigned	AB,	unsigned	BA,	unsi
 	}
 	return	pval;
 }
+static	inline	long	double	FastCausal(unsigned	AA,	unsigned	AB,	unsigned	BA,	unsigned	BB){
+	long	double	l0=expl(lgammal(AA+AB+1)+lgammal(BA+BB+1)+lgammal(AA+BA+1)+lgammal(AB+BB+1)-lgammal(AA+AB+BA+BB+1)-lgammal(AA+1)-lgammal(AB+1)-lgammal(BA+1)-lgammal(BB+1));
+	long	double	pval=l0,	cut=l0*1.000000000001L,	l,	aa,	ab,	ba,	bb;
+	long	double	beg=AA>BB?AA-BB:0,	end=AB<BA?AA+AB:AA+BA;
+	for(aa=AA,	ab=AB,	ba=BA,	bb=BB,	l=l0;	aa<end;	aa+=1,	ab-=1,	ba-=1,	bb+=1){	
+		l*=ab*ba/((aa+1)*(bb+1));	pval+=l;	
+	}
+	return	pval;
+}
 #endif
